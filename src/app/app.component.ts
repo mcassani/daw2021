@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'daw2021-frontend';
+	title = 'daw2021-frontend';
+	desarrollador = 'UTN-FRVM';
+
 }
