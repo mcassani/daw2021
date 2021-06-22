@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AutenticacionService } from '../services/autenticacion.service';
 import { DominioService } from '../services/dominio.service';
 
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private servicioAutenticacion: AutenticacionService,
-		private servicioDominio: DominioService
+		private servicioDominio: DominioService,
+		private router: Router
 	) { }
 
 	ngOnInit() {
@@ -32,7 +34,12 @@ export class LoginComponent implements OnInit {
 
 	onSubmit() {
 		this.enviado = true;
-		this.servicioAutenticacion.login(this.f.usuario.value, this.f.password.value);
+		this.servicioAutenticacion.login(this.f.usuario.value, this.f.password.value).subscribe((rta) => {
+			//Se logueo con exito
+			this.router.navigate(['/inicio']);
+		}, (error) => {
+			console.log(error);
+		});
 		
 	}
 
