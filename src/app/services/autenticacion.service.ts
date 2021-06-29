@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,23 +13,24 @@ export class AutenticacionService {
 	constructor(private http: HttpClient) { }
 	
 	login(usuario: string, pass: string) {
-
 		var tokenUsuario = 'Basic ' + window.btoa(usuario + ':' + pass);
-
 		var opciones = {
 			headers: new HttpHeaders({'Authorization' : tokenUsuario })
 		}
-
-		this.http.get(environment.url + 'login', opciones).subscribe((rta) => {
-			//Se logueo con exito
-			this.token = tokenUsuario;
-		}, (error) => {
-			console.log(error);
-		});
+		return this.http.get(environment.url + 'login', opciones).pipe(
+			map((rta) => {
+				//Se logueo con exito
+				console.log('pipe -> map');
+				// this.token = tokenUsuario;
+				localStorage.setItem('token', tokenUsuario);
+				localStorage.setItem('usuario', JSON.stringify(rta));
+			})
+		);
 	}
-
 	get tokenAutorizado() {
-		return this.token;
+		return localStorage.getItem('token');
 	}
-
+	get usuarioLogueado() {
+		return JSON.parse(localStorage.getItem('usuario'));
+	}
 }

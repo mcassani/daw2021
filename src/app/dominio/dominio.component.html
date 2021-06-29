@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="container">
+	<h1>Dominios</h1>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Nombre Dominio</th>
+				<th scope="col">Fecha Creación</th>
+				<th scope="col">Handle</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let d of dominios" >
+				<th scope="row">{{d.id}}</th>
+				<td>{{d.nombreDominio}}</td>
+				<td [ngClass]="{'table-primary' : d.id % 2 === 0}">{{d.fechaCreacion | date : 'dd/MM/yyyy HH:mm'}}</td>
+				<td><button type="button" class="btn btn-primary" (click)="ver(d.id)">Ver</button></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<app-footer></app-footer>

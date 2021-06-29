@@ -10,10 +10,6 @@ export class DominioService {
 	constructor(private http: HttpClient) { }
 	
 	pedirDominios() {
-		this.http.get(environment.url + 'dominios').subscribe((rta) => {
-			console.log(rta);
-		}, (error) => {
-			console.log(error);
-		});
+		return this.http.get(environment.url + 'dominios');
 	}
 }

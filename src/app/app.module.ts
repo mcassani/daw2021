@@ -8,6 +8,10 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InterceptorHttpService } from './services/interceptor-http.service';
+import { appRoutingModule } from './rutas/rutas-routing.module';
+import { InicioComponent } from './inicio/inicio.component';
+import { DominioComponent } from './dominio/dominio.component';
+
 
 @NgModule({
   declarations: [
@@ -15,15 +19,18 @@ import { InterceptorHttpService } from './services/interceptor-http.service';
 	    HeaderComponent,
 	    FooterComponent,
 	    LoginComponent,
+	    InicioComponent,
+	    DominioComponent,
   ],
   imports: [
 	  BrowserModule,
 	  ReactiveFormsModule,
-	  HttpClientModule
+	  HttpClientModule,
+	  appRoutingModule
   ],
 	providers: [
 	  { provide: HTTP_INTERCEPTORS, useClass : InterceptorHttpService, multi : true}
   ],
-  bootstrap: [LoginComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
