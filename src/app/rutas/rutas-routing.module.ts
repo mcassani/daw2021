@@ -1,4 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
+import { DominioNuevoComponent } from '../dominio/dominio-nuevo/dominio-nuevo.component';
 import { DominioComponent } from '../dominio/dominio.component';
 
 import { InicioComponent } from '../inicio/inicio.component';
@@ -9,6 +10,7 @@ const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: 'inicio', component: InicioComponent, canActivate : [Authguard] },
 	{ path: 'dominios', component: DominioComponent, canActivate : [Authguard] },
+	{ path: 'dominios/:id', component: DominioNuevoComponent, canActivate : [Authguard] },
 	{ path: '**', redirectTo : 'inicio' },
 ];
 

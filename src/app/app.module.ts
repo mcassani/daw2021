@@ -11,6 +11,8 @@ import { InterceptorHttpService } from './services/interceptor-http.service';
 import { appRoutingModule } from './rutas/rutas-routing.module';
 import { InicioComponent } from './inicio/inicio.component';
 import { DominioComponent } from './dominio/dominio.component';
+import { DominioNuevoComponent } from './dominio/dominio-nuevo/dominio-nuevo.component';
+
 
 
 @NgModule({
@@ -21,6 +23,7 @@ import { DominioComponent } from './dominio/dominio.component';
 	    LoginComponent,
 	    InicioComponent,
 	    DominioComponent,
+	    DominioNuevoComponent,
   ],
   imports: [
 	  BrowserModule,
