@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DominioService } from 'src/app/services/dominio.service';
+
 
 @Component({
 	selector: 'app-dominio-nuevo',
@@ -12,19 +13,33 @@ export class DominioNuevoComponent implements OnInit {
 
 	formulario: FormGroup;
 	titulo: string;
+	modoNuevo: boolean;
+	dominio: any;
 
 	constructor(
 		private formBuilder: FormBuilder,
 		public rutaActiva: ActivatedRoute,
-		public servicioDominio: DominioService
+		public servicioDominio: DominioService,
+		public router: Router
 	) { }
 
 	ngOnInit() {
 
-		this.titulo = this.rutaActiva.snapshot.params.id;
 		this.formulario = this.formBuilder.group({
 			nombre: ['', [Validators.required, Validators.minLength(4)]],
 		});
+		if (this.rutaActiva.snapshot.params.id !== 'nuevo') { //Modo editar
+			this.titulo = "Editar dominio";
+			this.modoNuevo = false;
+			this.servicioDominio.get(this.rutaActiva.snapshot.params.id).subscribe((rta: any) => {
+				//completar el resto de los valores
+				this.f.nombre.setValue(rta.nombreDominio);
+				this.dominio = rta;
+			});
+		} else {
+			this.titulo = "Nuevo dominio";
+			this.modoNuevo = true;
+		}
 	}
 
 	get f() {
@@ -32,13 +47,26 @@ export class DominioNuevoComponent implements OnInit {
 	}
 
 	onSubmit() {
-		// this.servicioDominio.guardar(this.f.usuario.value, this.f.password.value).subscribe((rta) => {
-		// 	console.log('login');
-		// 	//Navegar al inicio
-		// 	this.router.navigate(['dominios']);
-		// }, (error) => {
-		// 	console.log(error);
-		// });
+		//Me fijo en el modo de pantalla
+		if (this.modoNuevo) {
+			var nuevoDominio: any;
+			nuevoDominio = {};
+			nuevoDominio.nombreDominio = this.f.nombre.value;
+			this.servicioDominio.guardar(nuevoDominio).subscribe((rta) => {
+				this.router.navigate(["dominios"]);
+			}, (error) => {
+				alert('Error al cargar');
+			});
+		} else {
+			//Actualizo el modelo de acuerdo a los valores de los input del formulario
+			this.dominio.nombreDominio = this.f.nombre.value;
+			this.servicioDominio.actualizar(this.dominio).subscribe((rta) => {
+				this.router.navigate(["dominios"]);
+			}, (error) => {
+				alert('Error al cargar');
+			});
+		}
+
 	}
 
 }
